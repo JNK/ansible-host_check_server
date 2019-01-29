@@ -1,5 +1,25 @@
 host_check_server_checks: []
 host_check_server_scripts: []
+# - type: process-count-gte
+#   name: haproxy-running-gte-example,
+#   process: haproxy
+#   min: 2
+# - type: process-count-lte
+#   name: haproxy-running-lte-example,
+#   process: haproxy
+#   max: 2
+# - type: process-count-eq
+#   name: haproxy-running-exact-example,
+#   process: haproxy
+#   count: 2
+# - type: cmd-exit-code
+#   name: haproxy-running-exact-example,
+#   command: "./some-script.sh"
+#   code: 0
+# - type: cmd-result-regex
+#   name: haproxy-running-exact-example,
+#   command: "./some-script.sh"
+#   regex: "foo"
 
 host_check_server_install_dir: "/usr/local/bin"
 
@@ -10,5 +30,5 @@ host_check_server_interval: 5
 host_check_server_user: host-check
 host_check_server_uid: 424
 
-host_check_server_version: 1.0.0
+host_check_server_version: 1.1.0
 host_check_server_binary_url: "https://github.com/JNK/golang-host_check_server/releases/download/v{{ host_check_server_version }}/linux-amd64-v{{ host_check_server_version }}-host_check_server"
