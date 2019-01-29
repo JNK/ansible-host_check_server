@@ -1,0 +1,11 @@
+---
+  - name: restart server
+    become: true
+    service:
+      name: host_check_server
+      state: restarted
+
+  - name: reload daemon
+    become: true
+    systemd:
+      daemon_reload: yes

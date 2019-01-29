@@ -1,0 +1,68 @@
+---
+  - name: Create host check group
+    become: true
+    group:
+      name: "{{ host_check_server_user }}"
+      gid: "{{ host_check_server_gid|default(host_check_server_uid) }}"
+
+  - name: Create host check user
+    become: true
+    user:
+      name: "{{ host_check_server_user }}"
+      group: "{{ host_check_server_user }}"
+      uid: "{{ host_check_server_uid }}"
+      home: "/var/lib/{{ host_check_server_user }}"
+      system: true
+
+  - name: Copy host check scripts
+    become: true
+    template:
+      src: "{{ item.src }}"
+      dest: "/var/lib/{{ host_check_server_user }}/{{ item.name }}"
+      mode: "0750"
+      owner: "{{ host_check_server_user }}"
+      group: "{{ host_check_server_user }}"
+    with_items: "{{ host_check_server_scripts }}"
+
+  - name: Copy executable
+    become: true
+    copy:
+      src: host_check_server
+      dest: "{{ host_check_server_install_dir }}/host_check_server"
+      mode: "0755"
+      owner: "{{ host_check_server_user }}"
+      group: "{{ host_check_server_user }}"
+
+  - name: Copy defaults file
+    become: true
+    template:
+      src: "defaults.j2"
+      dest: "/etc/default/host_check_server"
+      mode: "0644"
+      owner: root
+      group: root
+    notify:
+      - restart server
+
+  - name: Copy service file
+    become: true
+    template:
+      src: "service.j2"
+      dest: "/lib/systemd/system/host_check_server.service"
+      mode: "0644"
+      owner: root
+      group: root
+    notify:
+      - reload daemon
+      - restart server
+
+  - name: Copy service config
+    become: true
+    template:
+      src: "config.json.j2"
+      dest: "{{ host_check_server_config_path }}"
+      mode: "0644"
+      owner: root
+      group: root
+    notify:
+      - restart server

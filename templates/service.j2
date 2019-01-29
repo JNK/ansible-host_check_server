@@ -1,0 +1,19 @@
+[Unit]
+Description=Host check server
+After=network.target rsyslog.service
+
+[Service]
+User={{ host_check_server_user }}
+Group={{ host_check_server_user }}
+WorkingDirectory=/var/lib/{{ host_check_server_user }}
+EnvironmentFile=-/etc/default/host_check_server
+ExecStart={{ host_check_server_install_dir }}/host_check_server $OPTS
+KillMode=mixed
+Restart=always
+Type=simple
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=host_check_server
+
+[Install]
+WantedBy=multi-user.target

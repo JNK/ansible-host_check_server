@@ -1,0 +1,11 @@
+host_check_server_checks: []
+host_check_server_scripts: []
+
+host_check_server_install_dir: "/usr/local/bin"
+
+host_check_server_expose: "0.0.0.0:2424"
+host_check_server_config_path: "/etc/host_check_server.json"
+host_check_server_interval: 5
+
+host_check_server_user: host-check
+host_check_server_uid: 424
