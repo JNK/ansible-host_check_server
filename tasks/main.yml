@@ -26,8 +26,8 @@
 
   - name: Copy executable
     become: true
-    copy:
-      src: host_check_server
+    get_url:
+      url: "{{ host_check_server_binary_url }}"
       dest: "{{ host_check_server_install_dir }}/host_check_server"
       mode: "0755"
       owner: "{{ host_check_server_user }}"
